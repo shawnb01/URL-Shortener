@@ -7,9 +7,9 @@ import {
 } from "~/app/components/ui/card";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Mock function to fetch URL data - replace with your actual data fetching logic
@@ -49,7 +49,7 @@ async function getUrlData(slug: string) {
 }
 
 export default async function UrlAnalyticsPage({ params }: PageProps) {
-  const urlData = await getUrlData(params.slug);
+  const urlData = await params.then(({ slug }) => getUrlData(slug));
 
   if (!urlData) {
     notFound();
