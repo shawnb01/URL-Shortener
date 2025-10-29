@@ -10,11 +10,16 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
+model url {
     id        Int      @id @default(autoincrement())
-    name      String
+    authorId  String
+    clicks    Int      @default(0)
+    status    String   @default("active")
+    urlSlug   String   @unique
+    targetUrl String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@index([name])
+    @@index([authorId], name: "idx_author_id")
+    @@map("shawnb.dev_url")
 }
