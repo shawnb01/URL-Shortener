@@ -57,26 +57,26 @@ export const columns: ColumnDef<URL>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Clicks" />
     ),
-    cell: ({ row }) => row.getValue("clicks") as number,
+    cell: ({ row }) => row.getValue<number>("clicks"),
   },
   {
     accessorKey: "authorId",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Author ID" />
     ),
-    cell: ({ row }) => row.getValue("authorId") as string,
+    cell: ({ row }) => row.getValue<string>("authorId"),
   },
   {
     accessorKey: "status",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
     ),
-    cell: ({ row }) => row.getValue("status") as string,
+    cell: ({ row }) => row.getValue<string>("status"),
   },
   {
     accessorKey: "urlSlug",
     header: "URL Slug",
-    cell: ({ row }) => row.getValue("urlSlug") as string,
+    cell: ({ row }) => row.getValue<string>("urlSlug"),
   },
   {
     accessorKey: "targetUrl",
