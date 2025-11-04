@@ -2,7 +2,7 @@ import { api, HydrateClient } from "~/trpc/server";
 import URLShortenerCard from "~/app/components/url-shortener";
 
 export default async function Home() {
-  void api.url.getAllUrls.prefetch();
+  await api.url.getAllUrls.prefetch();
 
   return (
     <HydrateClient>

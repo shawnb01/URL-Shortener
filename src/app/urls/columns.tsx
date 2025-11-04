@@ -57,26 +57,40 @@ export const columns: ColumnDef<URL>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Clicks" />
     ),
-    cell: ({ row }) => row.getValue<number>("clicks"),
+    cell: (cell) => {
+      const clicks = cell.row.getValue<number>("clicks");
+      return clicks ? clicks : 0;
+    },
   },
   {
     accessorKey: "authorId",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Author ID" />
     ),
-    cell: ({ row }) => row.getValue<string>("authorId"),
+    cell: (cell) => {
+      const authorId = cell.row.getValue("authorId");
+      return authorId ?? "Unknown";
+    },
   },
   {
     accessorKey: "status",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
     ),
-    cell: ({ row }) => row.getValue<string>("status"),
+    cell: (cell) => {
+      const status = cell.row.getValue<"active" | "inactive" | "deleted">(
+        "status",
+      );
+      return status.charAt(0).toUpperCase() + status.slice(1);
+    },
   },
   {
     accessorKey: "urlSlug",
     header: "URL Slug",
-    cell: ({ row }) => row.getValue<string>("urlSlug"),
+    cell: (cell) => {
+      const urlSlug = cell.row.getValue("urlSlug");
+      return urlSlug ?? "N/A";
+    },
   },
   {
     accessorKey: "targetUrl",
