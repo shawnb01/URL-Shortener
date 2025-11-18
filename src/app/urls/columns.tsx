@@ -15,21 +15,15 @@ import {
 import { Checkbox } from "~/app/components/ui/checkbox";
 import { DataTableColumnHeader } from "~/app/components/data-table-column-header";
 import Link from "next/link";
+import type { URLDataObject } from "~/lib/types";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type URL = {
-  id: string;
-  authorId: string;
-  clicks: number;
-  status: "active" | "inactive" | "deleted";
-  urlSlug: string;
-  targetUrl: string;
-  createdAt: number;
-  updatedAt: number;
-};
 
-export const columns: ColumnDef<URL>[] = [
+const userRole = "USER"; // This should be fetched from user session or context
+const authorId = "user1"; // This should be fetched from user session or context
+
+export const columns: ColumnDef<URLDataObject>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -67,10 +61,7 @@ export const columns: ColumnDef<URL>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Author ID" />
     ),
-    cell: (cell) => {
-      const authorId = cell.row.getValue("authorId");
-      return authorId ?? "Unknown";
-    },
+    cell: ({ row }) => row.getValue("authorId"),
   },
   {
     accessorKey: "status",
@@ -87,10 +78,15 @@ export const columns: ColumnDef<URL>[] = [
   {
     accessorKey: "urlSlug",
     header: "URL Slug",
-    cell: (cell) => {
-      const urlSlug = cell.row.getValue("urlSlug");
-      return urlSlug ?? "N/A";
-    },
+    cell: ({ row }) => (
+      <Link
+        href={"/url/" + row.getValue("urlSlug")}
+        target="_blank"
+        className="text-muted hover:text-muted-foreground underline"
+      >
+        {row.getValue("urlSlug")}
+      </Link>
+    ),
   },
   {
     accessorKey: "targetUrl",
@@ -133,16 +129,18 @@ export const columns: ColumnDef<URL>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() =>
-                  navigator.clipboard.writeText(row.getValue("id"))
-                }
-              >
-                Copy Payment Id
-              </DropdownMenuItem>
+              <DropdownMenuItem>Edit URL</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>View Customer</DropdownMenuItem>
-              <DropdownMenuItem>View Payment Details</DropdownMenuItem>
+              {/* @ts-ignore */}
+              {userRole == "ADMIN" && (
+                <DropdownMenuItem>View URLs by Creator</DropdownMenuItem>
+              )}
+              {/* @ts-ignore */}
+              {authorId == row.getValue("authorId") && (
+                <DropdownMenuItem className="text-destructive bg-destructive/10 hover:bg-destructive/20 hover:text-destructive/70">
+                  Delete Shortened URL
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

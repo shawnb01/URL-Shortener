@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { type URLDataObject } from "~/lib/types";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
@@ -18,9 +19,16 @@ export const urlRouter = createTRPCRouter({
     }),
 
   getAllUrls: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.db.url.findMany({});
-  }),
+    const res = await ctx.db.url.findMany({
+      orderBy: { id: "asc" },
+    });
 
+    if (!res) {
+      return [] as URLDataObject[];
+    } else {
+      return res as URLDataObject[];
+    }
+  }),
   getBySlug: publicProcedure
     .input(z.object({ slug: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
@@ -36,5 +44,19 @@ export const urlRouter = createTRPCRouter({
         where: { authorId: input.authorId },
       });
       return urlEntries;
+    }),
+
+  incrementClickCount: publicProcedure
+    .input(z.object({ slug: z.string().length(6) }))
+    .mutation(async ({ ctx, input }) => {
+      const updatedUrl = await ctx.db.url.update({
+        where: { urlSlug: input.slug },
+        data: {
+          clicks: {
+            increment: 1,
+          },
+        },
+      });
+      return updatedUrl;
     }),
 });

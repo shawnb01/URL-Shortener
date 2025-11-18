@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   Card,
@@ -5,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/app/components/ui/card";
+import { api } from "~/trpc/server";
 
 interface PageProps {
   params: Promise<{
@@ -12,15 +14,16 @@ interface PageProps {
   }>;
 }
 
-// Mock function to fetch URL data - replace with your actual data fetching logic
-async function getUrlData(slug: string) {
-  // Replace this with your actual API call or database query
-  const mockData = {
-    id: slug,
-    originalUrl: "https://example.com",
-    shortUrl: `https://url.shawnb.dev/${slug}`,
-    createdAt: "2024-01-15T10:30:00Z",
-    clicks: 1247,
+export default async function UrlAnalyticsPage({ params }: PageProps) {
+  const data = await api.url.getBySlug({
+    slug: await params.then((p) => p.slug),
+  });
+  if (!data) {
+    notFound();
+  }
+  const urlData = {
+    ...data,
+    shortUrl: `https://url.shawnb.dev/${data.urlSlug}`,
     uniqueVisitors: 892,
     countries: [
       { name: "United States", count: 456 },
@@ -38,19 +41,6 @@ async function getUrlData(slug: string) {
       { name: "Firefox", count: 237 },
     ],
   };
-
-  // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 100));
-
-  // Return null if URL not found
-  if (slug === "notfound") return null;
-
-  return mockData;
-}
-
-export default async function UrlAnalyticsPage({ params }: PageProps) {
-  const urlData = await params.then(({ slug }) => getUrlData(slug));
-
   if (!urlData) {
     notFound();
   }
@@ -62,9 +52,19 @@ export default async function UrlAnalyticsPage({ params }: PageProps) {
         <Card>
           <CardContent className="p-4">
             <p className="text-muted-foreground mb-1 text-sm">Short URL</p>
-            <p className="mb-3 font-mono">{urlData.shortUrl}</p>
+            <Link
+              className="mb-3 font-mono hover:underline"
+              href={"/" + urlData.urlSlug}
+            >
+              {urlData.shortUrl}
+            </Link>
             <p className="text-muted-foreground mb-1 text-sm">Original URL</p>
-            <p className="font-mono text-sm break-all">{urlData.originalUrl}</p>
+            <Link
+              className="mb-3 font-mono hover:underline"
+              href={urlData.targetUrl}
+            >
+              {urlData.targetUrl}
+            </Link>
           </CardContent>
         </Card>
       </div>
