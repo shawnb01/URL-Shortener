@@ -1,5 +1,5 @@
 "use client";
-import { notFound, useRouter, useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useEffect } from "react";
 import { api } from "~/trpc/react";
 import { Card, CardContent, CardTitle } from "../components/ui/card";
@@ -23,11 +23,10 @@ export default function RedirectPage() {
 
   useEffect(() => {
     if (urlData?.targetUrl) {
-      utils.url.getBySlug.invalidate();
-      urlMutation.mutate({ slug: slug as string });
+      urlMutation.mutate({ slug: slug });
       router.push(urlData.targetUrl);
     }
-  }, [urlData, router, slug, utils]);
+  }, [urlData, router, slug, utils, urlMutation]);
 
   if (isLoading) {
     return (

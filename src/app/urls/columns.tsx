@@ -61,7 +61,7 @@ export const columns: ColumnDef<URLDataObject>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Author ID" />
     ),
-    cell: ({ row }) => row.getValue("authorId"),
+    cell: ({ row }) => row.getValue<string>("authorId"),
   },
   {
     accessorKey: "status",
@@ -80,7 +80,7 @@ export const columns: ColumnDef<URLDataObject>[] = [
     header: "URL Slug",
     cell: ({ row }) => (
       <Link
-        href={"/url/" + row.getValue("urlSlug")}
+        href={"/url/" + row.getValue<string>("urlSlug")}
         target="_blank"
         className="text-muted hover:text-muted-foreground underline"
       >
@@ -131,11 +131,10 @@ export const columns: ColumnDef<URLDataObject>[] = [
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem>Edit URL</DropdownMenuItem>
               <DropdownMenuSeparator />
-              {/* @ts-ignore */}
+              {/* @ts-expect-error userRole is pre-defined as ADMIN until context/userdata is available */}
               {userRole == "ADMIN" && (
                 <DropdownMenuItem>View URLs by Creator</DropdownMenuItem>
               )}
-              {/* @ts-ignore */}
               {authorId == row.getValue("authorId") && (
                 <DropdownMenuItem className="text-destructive bg-destructive/10 hover:bg-destructive/20 hover:text-destructive/70">
                   Delete Shortened URL
