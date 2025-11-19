@@ -15,6 +15,10 @@ interface PageProps {
 }
 
 export default async function UrlAnalyticsPage({ params }: PageProps) {
+  if (!params) {
+    notFound();
+  }
+
   const data = await api.url.getBySlug({
     slug: await params.then((p) => p.slug),
   });
@@ -41,9 +45,6 @@ export default async function UrlAnalyticsPage({ params }: PageProps) {
       { name: "Firefox", count: 237 },
     ],
   };
-  if (!urlData) {
-    notFound();
-  }
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-8">

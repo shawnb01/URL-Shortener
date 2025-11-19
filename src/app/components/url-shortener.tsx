@@ -127,6 +127,7 @@ export default function URLShortenerCard() {
                         onClick={() =>
                           setValue("slug", generateSlug(values.url))
                         }
+                        disabled={!values.url}
                       >
                         <RefreshCw className="h-4 w-4" />
                       </Button>
@@ -134,6 +135,7 @@ export default function URLShortenerCard() {
                         size="sm"
                         type="button"
                         onClick={() => setValue("slug", "")}
+                        disabled={!values.slug}
                       >
                         <X className="h-4 w-4" />
                       </Button>

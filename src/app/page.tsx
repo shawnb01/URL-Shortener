@@ -1,17 +1,13 @@
 import { api, HydrateClient } from "~/trpc/server";
 import URLShortenerCard from "~/app/components/url-shortener";
 
-export default async function Home() {
-  await api.url.getAllUrls.prefetch();
-
+export default function Home() {
   return (
     <HydrateClient>
-      <main className="bg-background text-foreground flex min-h-screen flex-col items-center justify-center">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <h1 className="text-4xl font-bold">Welcome to URL Shortener</h1>
-          <URLShortenerCard />
-        </div>
-      </main>
+      <div className="container mx-auto flex max-h-screen max-w-4xl flex-col items-center justify-center gap-4 px-4 py-8">
+        <h1 className="text-4xl font-bold">Welcome to URL Shortener</h1>
+        <URLShortenerCard />
+      </div>
     </HydrateClient>
   );
 }

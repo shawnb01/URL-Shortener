@@ -5,6 +5,8 @@ import { api } from "~/trpc/react";
 import { Card, CardContent, CardTitle } from "../components/ui/card";
 import { Loader, TriangleAlertIcon } from "lucide-react";
 
+// TODO: Allow the user to see the destination URL and confirm before redirecting.
+
 export default function RedirectPage() {
   const urlMutation = api.url.incrementClickCount.useMutation();
   const utils = api.useUtils();
