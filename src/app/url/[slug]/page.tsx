@@ -15,12 +15,14 @@ interface PageProps {
 }
 
 export default async function UrlAnalyticsPage({ params }: PageProps) {
-  if (!params) {
+  const resolvedParams = await params;
+
+  if (!resolvedParams.slug || resolvedParams.slug.length === 0) {
     notFound();
   }
 
   const data = await api.url.getBySlug({
-    slug: await params.then((p) => p.slug),
+    slug: resolvedParams.slug,
   });
   if (!data) {
     notFound();
