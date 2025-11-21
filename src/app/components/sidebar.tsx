@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { Home, Link, Settings } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -11,28 +11,19 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "~/app/components/ui/sidebar";
+import { NavUser } from "./nav-user";
 
 // Menu items.
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
+    title: "My URLs",
+    url: "/urls",
+    icon: Link,
   },
   {
     title: "Settings",
@@ -45,7 +36,15 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <h2 className="text-lg font-bold">URL Shortener</h2>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <a href="/">
+                <span>URL Shortener</span>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -66,7 +65,21 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <NavUser
+                user={{
+                  name: "John Doe",
+                  email: "john.doe@example.com",
+                  avatar: "https://i.pravatar.cc/150?img=3",
+                }}
+              />
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 }

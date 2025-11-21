@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { api } from "~/trpc/react";
 import { Card, CardContent, CardTitle } from "../components/ui/card";
 import { Loader, TriangleAlertIcon } from "lucide-react";
+import { toast } from "sonner";
 
 // TODO: Allow the user to see the destination URL and confirm before redirecting.
 
@@ -60,6 +61,12 @@ export default function RedirectPage() {
       </div>
     );
   }
+
+  if (!urlData) {
+    toast.error("URL not found");
+    router.push("/");
+  }
+
   return (
     <div className="flex h-screen items-center justify-center">
       <Card className="p-4">
