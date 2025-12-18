@@ -1,10 +1,19 @@
 "use client";
-import { Bell } from "lucide-react";
-import { ChevronsUpDown } from "lucide-react";
-import { CreditCard } from "lucide-react";
-import { LogOut } from "lucide-react";
-import { Sparkles } from "lucide-react";
-import { BadgeCheck } from "lucide-react";
+
+import {
+  BadgeCheck,
+  Bell,
+  ChevronsUpDown,
+  CreditCard,
+  LogOut,
+  Sparkles,
+} from "lucide-react";
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "~/app/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,11 +24,6 @@ import {
   DropdownMenuTrigger,
 } from "~/app/components/ui/dropdown-menu";
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "~/app/components/ui/avatar";
-import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -29,7 +33,11 @@ import {
 export function NavUser({
   user,
 }: {
-  user: { name: string; email: string; avatar: string };
+  user: {
+    name: string;
+    email: string;
+    avatar: string;
+  };
 }) {
   const { isMobile } = useSidebar();
 
@@ -44,7 +52,9 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">
+                  {getInitials(user.name)}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -63,7 +73,9 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    {getInitials(user.name)}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
@@ -103,4 +115,13 @@ export function NavUser({
       </SidebarMenuItem>
     </SidebarMenu>
   );
+}
+
+function getInitials(name: string) {
+  return name.includes(" ")
+    ? name
+        .split(" ", 2)
+        .map((n) => n[0])
+        .join("")
+    : name[0];
 }

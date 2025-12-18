@@ -1,8 +1,19 @@
 "use client";
+
 import { SidebarIcon } from "lucide-react";
-import { Separator } from "./ui/separator";
-import { Button } from "./ui/button";
-import { useSidebar } from "./ui/sidebar";
+
+import { SearchForm } from "~/app/components/search-form";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "~/app/components/ui/breadcrumb";
+import { Button } from "~/app/components/ui/button";
+import { Separator } from "~/app/components/ui/separator";
+import { useSidebar } from "~/app/components/ui/sidebar";
 
 export function SiteHeader() {
   const { toggleSidebar } = useSidebar();
@@ -11,16 +22,28 @@ export function SiteHeader() {
     <header className="bg-background sticky top-0 z-50 flex w-full items-center border-b">
       <div className="flex h-(--header-height) w-full items-center gap-2 px-4">
         <Button
+          className="h-8 w-8"
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
           onClick={toggleSidebar}
         >
           <SidebarIcon />
         </Button>
-        <Separator orientation="vertical" className="h-6 md:hidden" />
-        {/* Add Site Page title/location (pull from navigation state or context) */}
-        <div className="text-lg font-semibold">URL Shortener Dashboard</div>
+        {/* <Separator orientation="vertical" className="mr-2 h-4" />
+        <Breadcrumb className="hidden sm:block">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="#">
+                Building Your Application
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb> */}
+        {/* <SearchForm className="w-full sm:ml-auto sm:w-auto" /> */}
       </div>
     </header>
   );
