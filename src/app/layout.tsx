@@ -48,8 +48,8 @@ export default async function RootLayout({
                 <AppSidebar />
                 <SidebarInset>{children}</SidebarInset>
               </main>
-              <Toaster position="bottom-right" richColors />
             </SidebarProvider>
+            <Toaster richColors />
           </ThemeProvider>
         </TRPCReactProvider>
       </body>
