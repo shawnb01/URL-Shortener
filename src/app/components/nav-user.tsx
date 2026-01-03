@@ -37,6 +37,7 @@ export function NavUser({
     name: string;
     email: string;
     avatar: string;
+    handleSignOut: () => Promise<void>;
   };
 }) {
   const { isMobile } = useSidebar();
@@ -106,7 +107,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={user.handleSignOut}>
               <LogOut />
               Log out
             </DropdownMenuItem>

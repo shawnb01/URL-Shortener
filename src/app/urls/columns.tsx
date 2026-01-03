@@ -118,6 +118,10 @@ export const columns: ColumnDef<URLDataObject>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      function deleteURL(id: string): void {
+        throw new Error("Function not implemented.");
+      }
+
       return (
         <div className="flex justify-end">
           <DropdownMenu>
@@ -136,7 +140,10 @@ export const columns: ColumnDef<URLDataObject>[] = [
                 <DropdownMenuItem>View URLs by Creator</DropdownMenuItem>
               )}
               {authorId == row.getValue("authorId") && (
-                <DropdownMenuItem className="text-destructive bg-destructive/10 hover:bg-destructive/20 hover:text-destructive/70">
+                <DropdownMenuItem
+                  className="text-destructive bg-destructive/10 hover:bg-destructive/20 hover:text-destructive/70"
+                  onClick={() => deleteURL(row.getValue("id"))}
+                >
                   Delete Shortened URL
                 </DropdownMenuItem>
               )}
