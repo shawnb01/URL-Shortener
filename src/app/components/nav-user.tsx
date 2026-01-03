@@ -1,12 +1,12 @@
 "use client";
 
 import {
-  BadgeCheck,
-  Bell,
+  // BadgeCheck,
+  // Bell,
   ChevronsUpDown,
-  CreditCard,
+  // CreditCard,
   LogOut,
-  Sparkles,
+  // Sparkles,
 } from "lucide-react";
 
 import {
@@ -37,6 +37,7 @@ export function NavUser({
     name: string;
     email: string;
     avatar: string;
+    handleSignOut: () => Promise<void>;
   };
 }) {
   const { isMobile } = useSidebar();
@@ -84,7 +85,7 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
+            {/* <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Sparkles />
                 Upgrade to Pro
@@ -105,8 +106,8 @@ export function NavUser({
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuSeparator /> */}
+            <DropdownMenuItem onClick={user.handleSignOut}>
               <LogOut />
               Log out
             </DropdownMenuItem>

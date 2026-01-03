@@ -10,6 +10,7 @@ import { SidebarInset, SidebarProvider } from "./components/ui/sidebar";
 
 import { AppSidebar } from "./components/app-sidebar";
 import { SiteHeader } from "./components/site-header";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "URL Shortener",
@@ -30,29 +31,31 @@ export default async function RootLayout({
   const sidebarOpen = cookieStore.get("sidebar_state")?.value === "true";
 
   return (
-    <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
-      <body className="[--header-height:calc(--spacing(14))]">
-        <TRPCReactProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <SidebarProvider
-              className="flex flex-col"
-              defaultOpen={sidebarOpen}
+    <ClerkProvider>
+      <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
+        <body className="[--header-height:calc(--spacing(14))]">
+          <TRPCReactProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
             >
-              <SiteHeader />
-              <main className="flex flex-1">
-                <AppSidebar />
-                <SidebarInset>{children}</SidebarInset>
-              </main>
-            </SidebarProvider>
-            <Toaster richColors />
-          </ThemeProvider>
-        </TRPCReactProvider>
-      </body>
-    </html>
+              <SidebarProvider
+                className="flex flex-col"
+                defaultOpen={sidebarOpen}
+              >
+                <SiteHeader />
+                <main className="flex flex-1">
+                  <AppSidebar />
+                  <SidebarInset>{children}</SidebarInset>
+                </main>
+              </SidebarProvider>
+              <Toaster richColors />
+            </ThemeProvider>
+          </TRPCReactProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

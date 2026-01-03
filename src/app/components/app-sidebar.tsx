@@ -7,6 +7,7 @@ import {
   CopySlashIcon,
   // Frame,
   LifeBuoy,
+  LogIn,
   // Map,
   PieChart,
   Send,
@@ -28,12 +29,19 @@ import {
   SidebarMenuItem,
 } from "~/app/components/ui/sidebar";
 import Link from "next/link";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  useAuth,
+  useUser,
+} from "@clerk/nextjs";
 
 const data = {
   user: {
-    name: "Shawn P B",
-    email: "shawn@shawnb.dev",
-    avatar: "https://i.pravatar.cc/150?img=3",
+    name: "",
+    email: "",
+    avatar: "",
   },
   navMain: [
     {
@@ -159,6 +167,23 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const user = useUser();
+  const session = useAuth();
+  const userData = {
+    name: "",
+    email: "",
+    avatar: "",
+    handleSignOut: async () => {
+      await session.signOut();
+    },
+  };
+
+  if (user.isLoaded && user.user) {
+    userData.name = user.user.fullName ?? user.user.username ?? "No Name";
+    userData.email = user.user.primaryEmailAddress?.emailAddress ?? "No Email";
+    userData.avatar = user.user.imageUrl;
+  }
+
   return (
     <Sidebar
       className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
@@ -187,7 +212,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <SignedIn>
+          <NavUser user={userData} />
+        </SignedIn>
+        <SignedOut>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton className="bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent/80 justify-center hover:cursor-pointer">
+                <SignInButton>
+                  <span className="flex items-center gap-2">
+                    <LogIn />
+                    Sign In
+                  </span>
+                </SignInButton>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SignedOut>
       </SidebarFooter>
     </Sidebar>
   );
