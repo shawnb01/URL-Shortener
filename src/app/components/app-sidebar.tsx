@@ -2,20 +2,20 @@
 
 import * as React from "react";
 import {
-  BookOpen,
-  Bot,
+  // BookOpen,
+  // Bot,
   CopySlashIcon,
-  Frame,
+  // Frame,
   LifeBuoy,
-  Map,
+  // Map,
   PieChart,
   Send,
-  Settings2,
+  // Settings2,
   SquareTerminal,
 } from "lucide-react";
 
 import { NavMain } from "~/app/components/nav-main";
-import { NavProjects } from "~/app/components/nav-projects";
+// import { NavProjects } from "~/app/components/nav-projects";
 import { NavSecondary } from "~/app/components/nav-secondary";
 import { NavUser } from "~/app/components/nav-user";
 import {

@@ -2,17 +2,17 @@
 
 import { SidebarIcon } from "lucide-react";
 
-import { SearchForm } from "~/app/components/search-form";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "~/app/components/ui/breadcrumb";
+// import { SearchForm } from "~/app/components/search-form";
+// import {
+// Breadcrumb,
+// BreadcrumbItem,
+// BreadcrumbLink,
+// BreadcrumbList,
+// BreadcrumbPage,
+// BreadcrumbSeparator,
+// } from "~/app/components/ui/breadcrumb";
 import { Button } from "~/app/components/ui/button";
-import { Separator } from "~/app/components/ui/separator";
+// import { Separator } from "~/app/components/ui/separator";
 import { useSidebar } from "~/app/components/ui/sidebar";
 
 export function SiteHeader() {
